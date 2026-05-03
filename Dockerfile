@@ -1,9 +1,14 @@
-FROM python:3.10
+FROM node:18
 
 WORKDIR /app
 
+COPY package*.json ./
+RUN npm install
+
 COPY . .
 
-RUN pip install streamlit
-# Cloud Run provides PORT env variable
-CMD ["sh", "-c", "streamlit run app.py --server.port=$PORT --server.address=0.0.0.0"]
+ENV PORT=8080
+
+EXPOSE 8080
+
+CMD ["npm", "start"]
